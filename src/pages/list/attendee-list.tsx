@@ -1,27 +1,26 @@
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, MoreHorizontal, Search } from "lucide-react"
-import { IconButton } from "./icon-button"
-import { Table } from "./table/table"
-import { TableHeader } from "./table/table-header"
-import { TableCell } from "./table/table-cell"
-import { TableRow } from "./table/table-row"
 import { ChangeEvent, useEffect, useState } from "react"
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { TableHeader } from "../../components/table/table-header"
+import { Table } from "../../components/table/table"
+import { TableRow } from "../../components/table/table-row"
+import { TableCell } from "../../components/table/table-cell"
+import { IconButton } from "../../components/icon-button"
 
 dayjs.extend(relativeTime)
 dayjs.locale('pt-br')
 
-interface Event {
+interface Attendee {
     id: string
-    title: string
-    slug: string
-    details: string
-    maximumAttendees: number
-    attendeesAmount: number
+    name: string
+    email: string
+    createdAt: string
+    checkedInAt: string | null
 }
 
-export function EventList() {
+export function AttendeeList() {
 
     const [search, setSearch] = useState(() => {
         const url = new URL(window.location.toString())
@@ -44,12 +43,12 @@ export function EventList() {
     });
 
     const [total, setTotal] = useState(0)
-    const [events, setEvents] = useState<Event[]>([])
+    const [attendees, setAttendees] = useState<Attendee[]>([])
 
     const totalPages = Math.ceil(total / 10)
 
     useEffect(() => {
-        const url = new URL('http://localhost:3333/events/627cb110-5c68-4c90-8ff1-f3cce15d606e')
+        const url = new URL('http://localhost:3333/attendees/events/b9a2b571-b240-4f88-ac4b-6f45601aee5b')
 
         url.searchParams.set('pageIndex', String(page - 1))
 
@@ -60,7 +59,7 @@ export function EventList() {
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                setEvents(data.events)
+                setAttendees(data.attendees)
                 setTotal(data.total)
             })
     }, [page, search])
@@ -110,14 +109,14 @@ export function EventList() {
     return (
         <div className="flex flex-col gap-4 ">
             <div className="flex gap-3 items-center">
-                <h1 className="text-2xl font-bold">Eventos</h1>
+                <h1 className="text-2xl font-bold">Participantes</h1>
                 <div className="px-3 w-72 py-1.5 border border-white/10 rounded-lg flex items-center gap-3">
                     <Search className="size-4 text-emerald-300" />
                     <input
                         onChange={onSearchInputChanged}
                         value={search}
                         className="bg-transparent flex-1 outline-none border-0 p-0 text-sm focus:ring-0"
-                        placeholder="Buscar evento..."
+                        placeholder="Buscar participante..."
                     />
                 </div>
             </div>
@@ -127,39 +126,32 @@ export function EventList() {
                     <tr className="border-b border-white/10">
                         <TableHeader style={{ width: 48 }}>
                         </TableHeader>
-                        <TableHeader>Título</TableHeader>
-                        <TableHeader>Detalhes</TableHeader>
-                        <TableHeader>Limite de Participantes</TableHeader>
-                        <TableHeader>Total de Participantes</TableHeader>
+                        <TableHeader>Código</TableHeader>
+                        <TableHeader>Participante</TableHeader>
+                        <TableHeader>Data de Inscrição</TableHeader>
+                        <TableHeader>Data do Check-in</TableHeader>
                         <TableHeader style={{ width: 64 }}></TableHeader>
                     </tr>
                 </thead>
                 <tbody>
-                {events && events.map((event) => {
+                    {attendees.map((attendee) => {
                         return (
-                            <TableRow key={event.id} >
+                            <TableRow key={attendee.id} >
                                 <TableCell>
                                     <input type="checkbox" className=" size-4 bg-black/20 rounded border border-white/10 accent-orange-400" />
                                 </TableCell>
+                                <TableCell>{attendee.id}</TableCell>
                                 <TableCell>
                                     <div className="flex flex-col gap-1">
-                                        <span className="font-semibold text-white">{event.title}</span>
+                                        <span className="font-semibold text-white">{attendee.name}</span>
+                                        <span>{attendee.email}</span>
                                     </div>
                                 </TableCell>
+                                <TableCell>{dayjs().to(attendee.createdAt)}</TableCell>
                                 <TableCell>
-                                    <div className="flex flex-col gap-1">
-                                        <span className="font-semibold text-white">{event.details}</span>
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex flex-col gap-1">
-                                        <span className="font-semibold text-white">{event.maximumAttendees}</span>
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <div className="flex flex-col gap-1">
-                                        <span className="font-semibold text-white">{event.attendeesAmount}</span>
-                                    </div>
+                                    {attendee.checkedInAt === null
+                                        ? <span className="text-zinc-400">Não fez check-in</span>
+                                        : dayjs().to(attendee.checkedInAt)}
                                 </TableCell>
                                 <TableCell>
                                     {/*  <button className="bg-black/20 border border-white/10 rounded-md p-1.5">
@@ -176,8 +168,8 @@ export function EventList() {
                 <tfoot>
                     <tr>
                         <TableCell colSpan={3}>
-                           Mostrando {/* {events.length} */} de {total} 
-                            {/* {events.length > 1 || total > 1 ? ' eventos' : ' evento'} */}
+                            Mostrando {attendees.length} de {total}
+                            {attendees.length > 1 || total > 1 ? ' participantes' : ' participante'}
                         </TableCell>
                         <TableCell className="text-right" colSpan={3}>
                             <div className="inline-flex items-center gap-8">

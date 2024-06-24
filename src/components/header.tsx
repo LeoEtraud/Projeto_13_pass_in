@@ -6,7 +6,7 @@ export function Header() {
         <div className="flex items-center gap-5 py-2">
             <img src={nlwUniteIcon} />
 
-            <nav className="flex items-center gap-5">
+            <nav className="flex items-center gap-5 m-8">
                 <Navlink href="/pages/attendees">Cadastrar</Navlink>
                 <Navlink href="/events">Eventos</Navlink>
                 <Navlink href="/attendees">Participantes</Navlink>
