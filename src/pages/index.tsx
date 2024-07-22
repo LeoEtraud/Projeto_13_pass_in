@@ -1,134 +1,111 @@
-import { useState, useEffect } from 'react';
-import { useToast } from "@chakra-ui/react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useAuth } from "../contexts/AuthProvider/useAuth";
+import { useState, ChangeEvent, FormEvent } from 'react';
 import eye from '../assets/eye.svg';
 import eyeSlash from '../assets/eye-slash.svg';
-import { Link, useNavigate } from 'react-router-dom';
-import Cookies from "js-cookie";
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
-
-type LoginInFormData = {
-    cpf: string;
-    senha: string;
-}
-
-interface ErroType {
-    response?: {
-        data: {
-            message: string
-        }
-    }
-}
 
 export function Login() {
+    const [cpf, setCpf] = useState<string>('');
+    const [senha, setSenha] = useState<string>('');
+    const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
 
-    const navigate = useNavigate();
-    const auth = useAuth();
-    const toast = useToast();
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    // FUNÇÃO DISPARADA PARA CADASTRAR O PARTICIPANTE 
+    async function onCadUser(event: FormEvent) {
+        event.preventDefault();
+        setError(null);
+        setSuccess(null);
 
-    const initValues = {
-        cpf: "",
-        senha: "",
-    };
+        const attendeeData = {
+            cpf: cpf.replace(/\D/g, ''), // remove caracteres não numéricos
+            senha: senha,
+        };
 
-    const schema = yup.object().shape({
-        cpf: yup.string().required('CPF obrigatório').length(11, 'CPF deve ter 11 dígitos'),
-        senha: yup.string().required('Senha obrigatória'),
-    });
-
-    useEffect(() => {
-        const token = Cookies.get("corujaId");
-        if (token) {
-            navigate('/dashboard');
-        }
-    }, [navigate]);
-
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm<LoginInFormData>({
-        mode: "onTouched",
-        reValidateMode: "onSubmit",
-        resolver: yupResolver(schema),
-        defaultValues: initValues,
-    });
-
-    const onCadUser: SubmitHandler<LoginInFormData> = async (values) => {
-        setIsSubmitting(true);
         try {
-            await auth.authenticate(values.cpf, values.senha);
-            toast({
-                position: 'top',
-                description: "Autenticado com sucesso!",
-                status: 'success',
-                duration: 2000,
-                isClosable: true,
+            const response = await fetch('http://localhost:3333/attendees', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(attendeeData)
             });
-            setTimeout(() => navigate("/dashboard"), 500);
-        } catch (err) {
-            const error = err as ErroType;
-            if (error.response) {
-                toast({
-                    position: 'top',
-                    description: error.response.data.message,
-                    status: 'error',
-                    duration: 2000,
-                    isClosable: true,
-                });
+
+            if (!response.ok) {
+                throw new Error('Erro ao cadastrar participante');
             }
-        } finally {
-            setIsSubmitting(false);
+
+            setSuccess('Participante cadastrado com sucesso!');
+            setCpf('');
+            setSenha('');
+        } catch (error) {
+            setError('Erro ao cadastrar participante');
         }
+    }
+
+    // FUNÇÃO PARA FORMATAR O CPF
+    const formatCpf = (value: string) => {
+        value = value.replace(/\D/g, ''); // Remove caracteres não numéricos
+        value = value.replace(/(\d{3})(\d)/, '$1.$2'); // Adiciona ponto entre o terceiro e quarto dígitos
+        value = value.replace(/(\d{3})(\d)/, '$1.$2'); // Adiciona ponto entre o sexto e sétimo dígitos
+        value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona hífen entre o nono e décimo dígitos
+        return value;
     };
 
+    // FUNÇÃO PARA MOSTRAR/OCULTAR SENHA
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     };
 
-    const getBorderColor = (value: string | undefined) => {
-        return value ? 'border-green-500' : 'border-gray-300';
+    // Determina a cor da borda com base no valor do campo
+    const getBorderColor = (value: string) => {
+        return value ? 'border-green-500' : 'border-gray-500';
     };
 
     return (
-        <div className="flex flex-col w-120 h-120 items-center gap-16 border-gray-600 bg-gray-100 rounded-lg mx-auto mt-20 p-6">
-            <h1 className="text-2xl mt-6 font-bold text-gray-900">LOGIN</h1>
-            <form onSubmit={handleSubmit(onCadUser)} className="flex flex-col gap-6 items-center w-full">
+        <div className="flex flex-col w-96 items-center gap-16 border-2 border-white/10 rounded-lg m-auto mt-10 p-6">
+            <h1 className="text-2xl mt-6 font-bold text-white">LOGIN</h1>
+            <form onSubmit={onCadUser} className="flex flex-col gap-6 items-center">
 
-                <div className={`px-3 h-10 w-full md:w-96 py-1.5 border border-gray-950 rounded-lg flex items-center gap-3 focus-within:border-blue-600 ${getBorderColor(errors.cpf?.message)}`}>
+                {/* CAMPO DE TEXTO PARA ADICIONAR O CPF */}
+                <div className={`px-3 h-10 w-80 py-1.5 border rounded-lg flex items-center gap-3 focus-within:border-blue-500 ${getBorderColor(cpf)}`}>
                     <input
-                        className="bg-transparent flex-1 outline-none border-0 p-0 text-sm focus:ring-0 text-gray-900"
+                        className="bg-transparent flex-1 outline-none border-0 p-0 text-sm focus:ring-0 focus:border-blue-500 text-white"
                         placeholder="CPF"
-                        {...register('cpf')}
-                        maxLength={11}
-                        onChange={(e) => setValue('cpf', e.target.value, { shouldValidate: true })}
+                        value={cpf}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setCpf(formatCpf(e.target.value))}
+                        maxLength={14}
+                        required
                     />
-                    {errors.cpf && <p className="text-red-500 text-xs">{errors.cpf.message}</p>}
                 </div>
 
-                <div className={`px-3 h-10 w-full md:w-96 py-1.5 mb-0 border border-gray-950 rounded-lg flex items-center focus-within:border-blue-600 ${getBorderColor(errors.senha?.message)}`}>
+                {/* CAMPO DE TEXTO PARA ADICIONAR A SENHA */}
+                <div className={`px-3 h-10 w-80 py-1.5 mb-0 border rounded-lg flex items-center focus-within:border-blue-500 ${getBorderColor(senha)}`}>
                     <input
                         type={showPassword ? 'text' : 'password'}
-                        className="bg-transparent flex-1 outline-none border-0 p-0 text-sm focus:ring-0 text-gray-900"
+                        className="bg-transparent flex-1 outline-none border-0 p-0 text-sm focus:ring-0 focus:border-blue-500 text-white"
                         placeholder="Senha"
-                        {...register('senha')}
-                        onChange={(e) => setValue('senha', e.target.value, { shouldValidate: true })}
+                        value={senha}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setSenha(e.target.value)}
+                        required
                     />
-                    <img
-                        src={showPassword ? eyeSlash : eye}
-                        alt="Mostrar/Ocultar"
-                        onClick={toggleShowPassword}
-                        className="cursor-pointer"
-                    />
-                    {errors.senha && <p className="text-red-500 text-xs">{errors.senha.message}</p>}
+
+                    {senha && (
+                        <img
+                            src={showPassword ? eyeSlash : eye}
+                            alt="Mostrar/Ocultar"
+                            onClick={toggleShowPassword}
+                            style={{ cursor: 'pointer' }}
+                        />
+                    )}
                 </div>
+                <h1 className="text-right w-80 mt-0 text-sm text-gray-300">esqueceu a senha?</h1>
 
-                <Link to={"/recuperar"} className="text-right md:w-96 text-sm text-gray-800 hover:text-blue-700">Esqueceu a senha?</Link>
-
-                <button type="submit" title='Acessar' className="px-4 py-2 w-full md:w-72 mt-6 mb-6 bg-gradient-to-r from-blue-500 to-gray-600 hover:from-blue-700 hover:to-gray-700 text-white rounded-md transition duration-300 ease-in-out" disabled={isSubmitting}>
-                    {isSubmitting ? 'Acessando...' : 'ACESSAR'}
+                <button type="submit" className="px-2 py-1 w-72 mb-6 bg-blue-600 hover:bg-blue-800 text-white rounded-md">
+                    ACESSAR
                 </button>
+
             </form>
+            {error && <div className="text-red-500">{error}</div>}
+            {success && <div className="text-green-500">{success}</div>}
         </div>
     );
 }

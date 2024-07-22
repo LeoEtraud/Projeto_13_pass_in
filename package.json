@@ -9,29 +9,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@chakra-ui/react": "^2.8.2",
-    "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.5",
-    "@hookform/resolvers": "^3.6.0",
-    "axios": "^1.7.2",
     "dayjs": "^1.11.10",
-    "dotenv": "^16.4.5",
-    "framer-motion": "^11.2.11",
-    "js-cookie": "^3.0.5",
     "lucide-react": "^0.364.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.0",
-    "styled-components": "^6.1.11",
-    "sweetalert2": "^11.12.0",
-    "tailwind-merge": "^2.2.2",
-    "yup": "^1.4.0"
+    "tailwind-merge": "^2.2.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
     "@tailwindcss/forms": "^0.5.7",
-    "@types/js-cookie": "^3.0.6",
-    "@types/node": "^20.14.7",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/parser": "^7.2.0",
