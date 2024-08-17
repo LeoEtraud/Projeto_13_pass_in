@@ -1,6 +1,7 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import eye from '../assets/eye.svg';
 import eyeSlash from '../assets/eye-slash.svg';
+import { formatCpf } from '../utils/FormatCPF';
 
 export function Login() {
     const [cpf, setCpf] = useState<string>('');
@@ -41,16 +42,9 @@ export function Login() {
         }
     }
 
-    // FUNÇÃO PARA FORMATAR O CPF
-    const formatCpf = (value: string) => {
-        value = value.replace(/\D/g, ''); // Remove caracteres não numéricos
-        value = value.replace(/(\d{3})(\d)/, '$1.$2'); // Adiciona ponto entre o terceiro e quarto dígitos
-        value = value.replace(/(\d{3})(\d)/, '$1.$2'); // Adiciona ponto entre o sexto e sétimo dígitos
-        value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2'); // Adiciona hífen entre o nono e décimo dígitos
-        return value;
-    };
+   
 
-    // FUNÇÃO PARA MOSTRAR/OCULTAR SENHA
+    // FUNÇÃO PARA EXIBIR/OCULTAR SENHA
     const toggleShowPassword = () => {
         setShowPassword(!showPassword);
     };

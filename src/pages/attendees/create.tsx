@@ -1,8 +1,32 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
+import { formatCpf } from '../../utils/FormatCPF';
+import { useToast } from '@chakra-ui/react';
+import { useForm } from "react-hook-form";
+
+interface Idata {
+    name: string;
+    cpf: string;
+    email: string;
+    senha: string;
+    eventId: string;
+}
 
 export function CadAttendee() {
-    const [name, setName] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
+    const [data, setData] = useState<Idata>({
+        name: '',
+        cpf: '',
+        email: '',
+        senha: '',
+        eventId: '',
+    });
+
+    const {
+        reset,
+    } = useForm<Idata>({
+        defaultValues: data,
+    });
+
+    const toast = useToast();
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
 
@@ -12,55 +36,120 @@ export function CadAttendee() {
         setError(null);
         setSuccess(null);
 
-        const attendeeData = {
-            name: name,
-            email: email
-        };
-
         try {
             const response = await fetch('http://localhost:3333/attendees', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(attendeeData)
+                body: JSON.stringify(data),
             });
 
             if (!response.ok) {
                 throw new Error('Erro ao cadastrar participante');
             }
 
-            setSuccess('Participante cadastrado com sucesso!');
-            setName('');
-            setEmail('');
+            toast({
+                title: "Sucesso",
+                description: "Participante cadastrado com sucesso!",
+                position: "top",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+            });
+
+            reset(); // Limpa os campos após o sucesso
+            setData({
+                name: '',
+                cpf: '',
+                email: '',
+                senha: '',
+                eventId: '',
+            });
+
         } catch (error) {
-            setError('Erro ao cadastrar participante');
+            toast({
+                title: "Erro",
+                description: "Erro ao cadastrar participante. Tente novamente.",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
         }
     }
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setData(prevData => ({ ...prevData, [name]: value }));
+    };
 
     return (
         <div className="flex flex-col w-96 items-center gap-16 border-2 border-white/10 m-auto mt-10">
             <h1 className="text-2xl mt-6 font-bold">Cadastrar Participante</h1>
             <form onSubmit={onCadUser} className="flex flex-col gap-6 items-center">
 
-                {/* CAMPO DE TEXTO PARA ADICIONAR O NOME COMPLETO*/}
+                {/* CAMPO DE TEXTO PARA ADICIONAR O NOME COMPLETO */}
                 <div className="px-3 w-80 py-1.5 border border-white/10 rounded-lg flex items-center gap-3">
                     <input
                         className="bg-transparent flex-1 outline-none border-0 p-0 text-sm focus:ring-0"
                         placeholder="Nome completo"
-                        value={name}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                        name="name"
+                        value={data.name}
+                        onChange={handleChange}
+                        autoComplete='off'
                         required
                     />
                 </div>
 
-                {/* CAMPO DE TEXTO PARA ADICIONAR O E-MAIL*/}
+                {/* CAMPO DE TEXTO PARA ADICIONAR O CPF */}
+                <div className="px-3 w-80 py-1.5 border border-white/10 rounded-lg flex items-center gap-3">
+                    <input
+                        className="bg-transparent flex-1 outline-none border-0 p-0 text-sm focus:ring-0"
+                        placeholder="CPF"
+                        name="cpf"
+                        value={formatCpf(data.cpf)}
+                        onChange={handleChange}
+                        maxLength={14}
+                        autoComplete='off'
+                        required
+                    />
+                </div>
+
+                {/* CAMPO DE TEXTO PARA ADICIONAR O E-MAIL */}
                 <div className="px-3 w-80 py-1.5 border border-white/10 rounded-lg flex items-center gap-3">
                     <input
                         className="bg-transparent flex-1 outline-none border-0 p-0 text-sm focus:ring-0"
                         placeholder="E-mail"
-                        value={email}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                        name="email"
+                        value={data.email}
+                        onChange={handleChange}
+                        autoComplete='off'
+                        required
+                    />
+                </div>
+
+                {/* CAMPO DE TEXTO PARA ADICIONAR O SENHA */}
+                <div className="px-3 w-80 py-1.5 border border-white/10 rounded-lg flex items-center gap-3">
+                    <input
+                        className="bg-transparent flex-1 outline-none border-0 p-0 text-sm focus:ring-0"
+                        placeholder="Senha"
+                        name="senha"
+                        value={data.senha}
+                        onChange={handleChange}
+                        autoComplete='off'
+                        required
+                    />
+                </div>
+
+                {/* CAMPO DE TEXTO PARA ADICIONAR O EVENTO */}
+                <div className="px-3 w-80 py-1.5 border border-white/10 rounded-lg flex items-center gap-3">
+                    <input
+                        className="bg-transparent flex-1 outline-none border-0 p-0 text-sm focus:ring-0"
+                        placeholder="Evento"
+                        name="eventId"
+                        value={data.eventId}
+                        onChange={handleChange}
+                        autoComplete='off'
                         required
                     />
                 </div>
