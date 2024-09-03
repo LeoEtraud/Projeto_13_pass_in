@@ -169,7 +169,7 @@ export function AttendeeList() {
                     <tr>
                         <TableCell colSpan={3}>
                             Mostrando {attendees.length} de {total}
-                            {attendees.length > 1 || total > 1 ? ' participantes' : ' participante'}
+                             {attendees.length > 1 || total > 1 ? ' participantes' : ' participante'}
                         </TableCell>
                         <TableCell className="text-right" colSpan={3}>
                             <div className="inline-flex items-center gap-8">

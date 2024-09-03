@@ -1,4 +1,3 @@
-import { Header } from "./components/header";
 import { BrowserRouter } from "react-router-dom";
 import { Router } from "./routes";
 import { ChakraProvider } from "@chakra-ui/react";
@@ -10,7 +9,6 @@ export function App() {
 
       <ChakraProvider>
         <BrowserRouter>
-          <Header />
           <Router />
         </BrowserRouter>
       </ChakraProvider>

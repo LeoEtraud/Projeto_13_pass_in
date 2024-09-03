@@ -3,20 +3,27 @@ import { AttendeeList } from '../components/attendee-list'
 import { EventList } from '../components/event-list'
 import { CadAttendee } from '../pages/attendees/create'
 import { Login } from '../pages'
+import { DefaultLayout } from '../layouts'
 
 export function Router() {
-    return (
-        /* MINHAS ROTAS */
-        <Routes>
-            {/* PÁGINA INICIAL */}    
-            <Route path="/" element={<Login />} />
+  return (
+    /* MINHAS ROTAS */
+    <Routes>
+      {/* ROTA - PÁGINA DE LOGIN */}
+      <Route path="/" element={<Login />} />
 
-            {/* USUÁRIOS */}
-            <Route path="/pages/attendees" element={<CadAttendee />} />
+      {/* ROTA - PÁGINAS DO SITE */}
+      <Route path='/' element={<DefaultLayout />}>
 
-            {/* TABELAS */}
-            <Route path="/attendees" element={<AttendeeList />} />
-            <Route path="/events" element={<EventList />} />
-        </Routes>
-    )
+        {/* ROTA - PÁGINA DE CADASTRO */}
+        <Route path="/cad-attendees" element={<CadAttendee />} />
+
+        {/* ROTA - TABELAS DE PARTICIPANTES E EVENTOS */}
+        <Route path="/attendees" element={<AttendeeList />} />
+        <Route path="/events" element={<EventList />} />
+
+      </Route>
+
+    </Routes>
+  )
 }

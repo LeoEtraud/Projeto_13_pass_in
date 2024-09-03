@@ -55,7 +55,7 @@ export function Login() {
     };
 
     return (
-        <div className="flex flex-col w-96 items-center gap-16 border-2 border-white/10 rounded-lg m-auto mt-10 p-6">
+        <div className="flex flex-col w-96 items-center gap-16 border-2 border-white/10 rounded-lg m-auto mt-36 p-6">
             <h1 className="text-2xl mt-6 font-bold text-white">LOGIN</h1>
             <form onSubmit={onCadUser} className="flex flex-col gap-6 items-center">
 
