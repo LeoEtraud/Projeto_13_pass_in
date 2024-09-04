@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import eye from '../assets/eye.svg';
 import eyeSlash from '../assets/eye-slash.svg';
-import { formatCpf } from '../utils/FormatCPF';
+import { formatCpf } from '../utils/Format-Cpf-Phone';
 
 export function Login() {
     const [cpf, setCpf] = useState<string>('');
