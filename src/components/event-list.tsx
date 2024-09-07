@@ -8,6 +8,7 @@ import { ChangeEvent, useEffect, useState } from "react"
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import { IoIosAddCircle } from "react-icons/io";
 
 dayjs.extend(relativeTime)
 dayjs.locale('pt-br')
@@ -109,7 +110,7 @@ export function EventList() {
 
     return (
         <div className="flex flex-col gap-4 ">
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-3 items-center flex-1">
                 <h1 className="text-2xl font-bold">Eventos</h1>
                 <div className="px-3 w-72 py-1.5 border border-white/10 rounded-lg flex items-center gap-3">
                     <Search className="size-4 text-emerald-300" />
@@ -119,6 +120,11 @@ export function EventList() {
                         className="bg-transparent flex-1 outline-none border-0 p-0 text-sm focus:ring-0"
                         placeholder="Buscar evento..."
                     />
+                </div>
+                <div className="ml-auto">
+                    <button title="Cadastrar Evento" className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                    <IoIosAddCircle size={25}/>
+                    </button>
                 </div>
             </div>
 
@@ -135,7 +141,7 @@ export function EventList() {
                     </tr>
                 </thead>
                 <tbody>
-                {events && events.map((event) => {
+                    {events && events.map((event) => {
                         return (
                             <TableRow key={event.id} >
                                 <TableCell>
@@ -176,7 +182,7 @@ export function EventList() {
                 <tfoot>
                     <tr>
                         <TableCell colSpan={3}>
-                           Mostrando {/* {events.length} */} de {total} 
+                            Mostrando {/* {events.length} */} de {total}
                             {/* {events.length > 1 || total > 1 ? ' eventos' : ' evento'} */}
                         </TableCell>
                         <TableCell className="text-right" colSpan={3}>

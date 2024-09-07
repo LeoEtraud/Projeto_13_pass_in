@@ -155,7 +155,7 @@ export function CadAttendee() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-3 items-center">
-        <h1 className="text-2xl font-bold">Inscrição de Participantes</h1>
+        <h1 className="text-2xl font-bold">Cadastrar Evento</h1>
       </div>
 
       {/* Aplicando a borda azul ao redor do formulário */}
