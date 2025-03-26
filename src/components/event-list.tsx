@@ -149,8 +149,8 @@ export function EventList() {
         <thead>
           <tr className="border-b border-white/10">
             <TableHeader style={{ width: 48 }}></TableHeader>
-            <TableHeader>Título</TableHeader>
-            <TableHeader>Detalhes</TableHeader>
+            <TableHeader>Título do evento</TableHeader>
+            <TableHeader>Detalhes do evento</TableHeader>
             <TableHeader>Limite de Participantes</TableHeader>
             <TableHeader>Total de Participantes</TableHeader>
             <TableHeader style={{ width: 64 }}></TableHeader>
@@ -169,21 +169,21 @@ export function EventList() {
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-col gap-1">
-                      <span className="font-semibold text-white">
+                      <span className="font-semibold text-white text-xs">
                         {event.title}
                       </span>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-col gap-1">
-                      <span className="font-semibold text-white">
+                      <span className="font-semibold text-white text-xs">
                         {event.details}
                       </span>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex flex-col gap-1">
-                      <span className="font-semibold text-white">
+                      <span className="font-semibold text-white text-xs">
                         {event.maximumAttendees}
                       </span>
                     </div>

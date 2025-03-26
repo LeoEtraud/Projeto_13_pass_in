@@ -5,6 +5,7 @@ import { CadAttendee } from "../pages/attendees/create";
 import { Login } from "../pages";
 import { DefaultLayout } from "../layouts";
 import { NotFound } from "../404";
+import { PrivateRoute } from "./privateRoutes";
 
 export function Router() {
   return (
@@ -18,11 +19,32 @@ export function Router() {
       {/* ROTA - PÁGINAS DO SITE */}
       <Route path="/" element={<DefaultLayout />}>
         {/* ROTA - PÁGINA DE CADASTRO */}
-        <Route path="/cad-attendees" element={<CadAttendee />} />
+        <Route
+          path="/cad-attendees"
+          element={
+            <PrivateRoute>
+              <CadAttendee />
+            </PrivateRoute>
+          }
+        />
 
         {/* ROTA - TABELAS DE PARTICIPANTES E EVENTOS */}
-        <Route path="/attendees" element={<AttendeeList />} />
-        <Route path="/events" element={<EventList />} />
+        <Route
+          path="/attendees"
+          element={
+            <PrivateRoute>
+              <AttendeeList />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/events"
+          element={
+            <PrivateRoute>
+              <EventList />
+            </PrivateRoute>
+          }
+        />
       </Route>
     </Routes>
   );

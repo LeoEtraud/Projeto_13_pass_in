@@ -230,7 +230,7 @@ export function CadAttendee() {
 
   // Determina a cor da borda com base no valor do campo
   const getBorderColor = (value: string) => {
-    return value ? "border-blue-500" : "border-gray-500";
+    return value ? "border-green-500" : "border-gray-500";
   };
 
   return (

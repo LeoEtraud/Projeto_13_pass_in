@@ -60,7 +60,6 @@ export function CreateEventModal({ isOpen, onClose }: CreateEventModalProps) {
       }
 
       toast({
-        title: "Sucesso",
         description: "Evento cadastrado com sucesso!",
         position: "top",
         status: "success",
@@ -76,7 +75,6 @@ export function CreateEventModal({ isOpen, onClose }: CreateEventModalProps) {
       });
     } catch (error) {
       toast({
-        title: "Erro",
         description: "Erro ao cadastrar evento. Tente novamente.",
         position: "top",
         status: "error",
@@ -104,23 +102,29 @@ export function CreateEventModal({ isOpen, onClose }: CreateEventModalProps) {
     }));
   };
 
+  // Determina a cor da borda com base no valor do campo
+  const getBorderColor = (value: string) => {
+    return value ? "border-green-500" : "border-gray-500";
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <ModalOverlay />
       <ModalContent bg="gray.900">
         <ModalHeader>{"Cadastrar Evento"}</ModalHeader>
-        <ModalCloseButton
-          title="Fechar"
-          _hover={{ border: "1px solid lightblue" }}
-        />
+        <ModalCloseButton title="Fechar" />
 
         <ModalBody>
-          <Heading size="sm" pb={1}>
+          <Heading size="sm" py={4}>
             Preencha os dados do evento:
           </Heading>
           <Box m={4} display="flex" flexDirection="column" gap={4}>
-            <form onSubmit={onCadEvent} className="flex flex-col gap-4">
-              <div className="px-3 h-10 w-full py-1.5 border rounded-lg flex items-center gap-3 focus-within:border-blue-500">
+            <form onSubmit={onCadEvent} className="flex flex-col gap-6">
+              <div
+                className={`px-2 h-10 w-full py-1.5 border rounded-lg flex items-center gap-3 focus-within:border-blue-500 ${getBorderColor(
+                  dataEvent.title
+                )}`}
+              >
                 <input
                   className="bg-transparent flex-1 outline-none border-0 text-sm focus:ring-0 focus:border-blue-500 text-white"
                   placeholder="Título"
@@ -132,7 +136,11 @@ export function CreateEventModal({ isOpen, onClose }: CreateEventModalProps) {
                   required
                 />
               </div>
-              <div className="px-3 h-10 w-full py-1.5 border rounded-lg flex items-center gap-3 focus-within:border-blue-500">
+              <div
+                className={`px-2 h-10 w-full py-1.5 border rounded-lg flex items-center gap-3 focus-within:border-blue-500 ${getBorderColor(
+                  dataEvent.details
+                )}`}
+              >
                 <input
                   className="bg-transparent flex-1 outline-none border-0 text-sm focus:ring-0 focus:border-blue-500 text-white"
                   placeholder="Detalhes do evento"
@@ -144,7 +152,11 @@ export function CreateEventModal({ isOpen, onClose }: CreateEventModalProps) {
                   required
                 />
               </div>
-              <div className="px-3 h-10 w-full py-1.5 border rounded-lg flex items-center gap-3 focus-within:border-blue-500">
+              <div
+                className={`px-2 h-10 w-full py-1.5 border rounded-lg flex items-center gap-3 focus-within:border-blue-500 ${getBorderColor(
+                  dataEvent.maximumAttendees
+                )}`}
+              >
                 <input
                   type="number"
                   className="bg-transparent flex-1 outline-none border-0 text-sm focus:ring-0 focus:border-blue-500 text-white"
@@ -159,7 +171,7 @@ export function CreateEventModal({ isOpen, onClose }: CreateEventModalProps) {
               </div>
               <div className="flex mt-10 justify-end gap-4 ">
                 <button
-                  className="px-2 py-1 w-40 mb-6 bg-gray-600 hover:bg-gray-700 text-white rounded-md font-bold"
+                  className="px-2 py-1 w-36 mb-7 bg-gray-600 hover:bg-gray-700 text-white rounded-md font-bold"
                   color={"black"}
                   onClick={handleReset}
                 >
@@ -167,7 +179,7 @@ export function CreateEventModal({ isOpen, onClose }: CreateEventModalProps) {
                 </button>
                 <button
                   type="submit"
-                  className="px-2 py-1 w-48 mb-6 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-bold"
+                  className="px-2 py-1 w-40 mb-7 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-bold"
                 >
                   {" "}
                   Cadastrar
