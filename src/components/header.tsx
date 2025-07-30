@@ -58,7 +58,7 @@ export function Header() {
         title="Logout"
         onClick={handleLogout}
         disabled={loading} // Desabilita o botão enquanto carrega
-        className="ml-auto px-2 py-1 bg-gray-600 text-white rounded-md hover:bg-gray-800 transition"
+        className="ml-auto px-2 py-1 bg-red-700 text-white rounded-md hover:bg-red-800 transition"
       >
         {loading ? (
           <CircularProgress aria-label="Loading..." color="primary" />
