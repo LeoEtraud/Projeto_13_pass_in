@@ -75,11 +75,12 @@ export function Login() {
         >
           {/* CAMPO DE TEXTO PARA ADICIONAR O CPF */}
           <div
-            className={`px-3 h-10 w-full max-w-xs md:w-72 py-1.5 border-4 mt-6 md:mt-10 bg-white rounded-lg flex items-center gap-3 focus-within:border-blue-500 ${getBorderColor(
+            className={`px-3 h-10 w-64 md:w-72 py-1.5 border-4 mt-6 md:mt-10 bg-white rounded-lg flex items-center gap-3 focus-within:border-blue-500 ${getBorderColor(
               cpf
             )}`}
           >
             <input
+              inputMode="numeric"
               className="bg-transparent flex-1 outline-none border-0 readonly:bg-gray-100 readonly:text-gray-500 p-0 text-sm focus:ring-0 focus:border-blue-500 text-black"
               placeholder="CPF"
               value={cpf}
@@ -87,13 +88,17 @@ export function Login() {
                 setCpf(formatCpf(e.target.value))
               }
               maxLength={14}
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck="false"
               required
             />
           </div>
 
           {/* CAMPO DE TEXTO PARA ADICIONAR A SENHA */}
           <div
-            className={`px-3 h-10 w-full max-w-xs md:w-72 py-2 mb-0 border-4 bg-white rounded-lg flex items-center focus-within:border-blue-500 ${getBorderColor(
+            className={`px-3 h-10 w-64 md:w-72 py-2 mb-0 border-4 bg-white rounded-lg flex items-center focus-within:border-blue-500 ${getBorderColor(
               senha
             )}`}
           >
@@ -121,7 +126,7 @@ export function Login() {
 
           <button
             type="submit"
-            className="my-3 md:my-5 px-2 py-1 w-full max-w-xs md:w-44 h-10 mb-4 md:mb-6 bg-blue-600 hover:bg-blue-800 text-white font-bold rounded-md"
+            className="my-3 md:my-5 px-2 py-1 w-48 max-w-[200px] md:w-44 h-8 md:h-10 mb-4 md:mb-6 bg-blue-600 hover:bg-blue-800 text-white font-bold rounded-md text-sm md:text-base"
             disabled={loading}
           >
             {loading ? (
