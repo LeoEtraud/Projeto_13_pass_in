@@ -17,7 +17,7 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
     };
 
     checkAuthentication();
-  }, [checkAuth]);
+  }, []);
 
   const location = useLocation(); // Obtém a localização atual
 
@@ -26,10 +26,10 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
     return null;
   }
 
-  // Se não estiver logado, redireciona para a página de login e mantém a rota de destino
-  return token !== "null" ? (
-    <>{children}</>
-  ) : (
-    <Navigate to="/" state={{ from: location }} />
-  );
+  // Verifica qualquer token "falsy" (null, undefined, '', etc.)
+  if (!token) {
+    return <Navigate to="/" state={{ from: location }} replace />;
+  }
+
+  return <>{children}</>;
 };

@@ -50,8 +50,6 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
           isClosable: true,
         });
       } else {
-        setUser(response.data.userId);
-        setToken(response.data.token);
         api.defaults.headers.common[
           "authorization"
         ] = `Bearer ${response.data.token}`;
@@ -60,6 +58,9 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
           JSON.stringify(response.data.userId)
         );
         localStorage.setItem("@Auth:token", response.data.token);
+
+        setUser(response.data.userId);
+        setToken(response.data.token);
 
         setTimeout(() => {
           toast({
@@ -70,7 +71,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
             isClosable: true,
           });
 
-          navigate("/cad-attendees"); // Redireciona para a próxima página
+          navigate("/events"); // Redireciona para a próxima página
         }, 750);
       }
     } catch (error) {

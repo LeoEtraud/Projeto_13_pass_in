@@ -37,8 +37,10 @@ export function AttendeeList() {
   const [total, setTotal] = useState(0);
   const [attendees, setAttendees] = useState<Attendee[]>([]);
   const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     // Cria a URL da API para buscar os dados
     const url = new URL("http://localhost:3333/attendees/events/all");
     url.searchParams.set("pageIndex", String(page - 1));
@@ -46,10 +48,23 @@ export function AttendeeList() {
 
     // Busca os dados da API
     fetch(url)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao buscar participantes");
+        }
+        return response.json();
+      })
       .then((data) => {
-        setAttendees(data.attendees);
-        setTotal(data.total);
+        setAttendees(data.attendees || []);
+        setTotal(data.total || 0);
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar participantes:", error);
+        setAttendees([]);
+        setTotal(0);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [page, search]);
 
@@ -108,44 +123,61 @@ export function AttendeeList() {
           </tr>
         </thead>
         <tbody>
-          {attendees.map((attendee) => (
-            <TableRow key={attendee.id}>
-              <TableCell>
-                <input
-                  type="checkbox"
-                  className="size-4 bg-black/20 rounded border border-white/10 accent-orange-400"
-                />
-              </TableCell>
-              <TableCell>{attendee.id}</TableCell>
-              <TableCell>
-                <div className="flex flex-col gap-1">
-                  <span className="font-semibold text-white">
-                    {attendee.name}
-                  </span>
-                  <span>{attendee.email}</span>
+          {loading ? (
+            <TableRow>
+              <TableCell colSpan={6} className="text-center py-8">
+                <div className="flex items-center justify-center gap-2">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
+                  <span>Carregando participantes...</span>
                 </div>
               </TableCell>
-              <TableCell>{dayjs().to(attendee.createdAt)}</TableCell>
-              <TableCell>
-                {attendee.checkedInAt ? (
-                  dayjs().to(attendee.checkedInAt)
-                ) : (
-                  <span className="text-zinc-400">Não fez check-in</span>
-                )}
-              </TableCell>
-              <TableCell>
-                <IconButton transparent={true}>
-                  <MoreHorizontal className="size-4" />
-                </IconButton>
+            </TableRow>
+          ) : attendees.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={6} className="text-center py-8 text-zinc-400">
+                Nenhum participante encontrado
               </TableCell>
             </TableRow>
-          ))}
+          ) : (
+            attendees.map((attendee) => (
+              <TableRow key={attendee.id}>
+                <TableCell>
+                  <input
+                    type="checkbox"
+                    className="size-4 bg-black/20 rounded border border-white/10 accent-orange-400"
+                  />
+                </TableCell>
+                <TableCell>{attendee.id}</TableCell>
+                <TableCell>
+                  <div className="flex flex-col gap-1">
+                    <span className="font-semibold text-white">
+                      {attendee.name}
+                    </span>
+                    <span>{attendee.email}</span>
+                  </div>
+                </TableCell>
+                <TableCell>{dayjs().to(attendee.createdAt)}</TableCell>
+                <TableCell>
+                  {attendee.checkedInAt ? (
+                    dayjs().to(attendee.checkedInAt)
+                  ) : (
+                    <span className="text-zinc-400">Não fez check-in</span>
+                  )}
+                </TableCell>
+                <TableCell>
+                  <IconButton transparent={true}>
+                    <MoreHorizontal className="size-4" />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </tbody>
         <tfoot>
           <tr>
             <TableCell colSpan={3}>
-              Mostrando {attendees.length} de {total}{" "}
-              {attendees.length > 1 ? "participantes" : "participante"}
+              {/* Mostrando {attendees.length} de {total}{" "}
+              {attendees.length > 1 ? "participantes" : "participante"} */}
             </TableCell>
             <TableCell className="text-right" colSpan={3}>
               <div className="inline-flex items-center gap-8">

@@ -54,10 +54,12 @@ export function EventList() {
   const [total, setTotal] = useState(0);
   const [events, setEvents] = useState<Event[]>([]);
   const [isOpen, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const totalPages = Math.ceil(total / 10);
+  const totalPages = Math.max(1, Math.ceil(total / 10));
 
   useEffect(() => {
+    setLoading(true);
     const url = new URL(
       "http://localhost:3333/events/627cb110-5c68-4c90-8ff1-f3cce15d606e"
     );
@@ -69,10 +71,23 @@ export function EventList() {
     }
 
     fetch(url)
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao buscar eventos");
+        }
+        return response.json();
+      })
       .then((data) => {
-        setEvents(data.events);
-        setTotal(data.total);
+        setEvents(data.events || []);
+        setTotal(data.total || 0);
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar eventos:", error);
+        setEvents([]);
+        setTotal(0);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, [page, search]);
 
@@ -157,7 +172,22 @@ export function EventList() {
           </tr>
         </thead>
         <tbody>
-          {events &&
+          {loading ? (
+            <TableRow>
+              <TableCell colSpan={6} className="text-center py-8">
+                <div className="flex items-center justify-center gap-2">
+                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
+                  <span>Carregando eventos...</span>
+                </div>
+              </TableCell>
+            </TableRow>
+          ) : events.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={6} className="text-center py-8 text-zinc-400">
+                Nenhum evento encontrado
+              </TableCell>
+            </TableRow>
+          ) : (
             events.map((event) => {
               return (
                 <TableRow key={event.id}>
@@ -205,12 +235,13 @@ export function EventList() {
                   </TableCell>
                 </TableRow>
               );
-            })}
+            })
+          )}
         </tbody>
         <tfoot>
           <tr>
             <TableCell colSpan={3}>
-              Mostrando {/* {events.length} */} de {total}
+              {/* Mostrando {events.length} de {total} */}
               {/* {events.length > 1 || total > 1 ? ' eventos' : ' evento'} */}
             </TableCell>
             <TableCell className="text-right" colSpan={3}>

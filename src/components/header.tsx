@@ -21,7 +21,7 @@ export function Header() {
 
       <nav className="flex items-center gap-5">
         {/* Usando NavLink para gerenciar o estado ativo */}
-        <NavLink
+        {/* <NavLink
           to="/cad-attendees"
           className={({ isActive }) =>
             isActive
@@ -30,7 +30,7 @@ export function Header() {
           }
         >
           Cadastrar
-        </NavLink>
+        </NavLink> */}
         <NavLink
           to="/events"
           className={({ isActive }) =>

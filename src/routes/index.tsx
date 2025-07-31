@@ -15,19 +15,11 @@ export function Router() {
       <Route path="*" element={<NotFound />} />
       {/* ROTA - PÁGINA DE LOGIN */}
       <Route path="/" element={<Login />} />
+      {/* ROTA - PÁGINA DE CADASTRO DE PARTICIPANTE */}
+      <Route path="/cad-attendees" element={<CadAttendee />} />
 
       {/* ROTA - PÁGINAS DO SITE */}
       <Route path="/" element={<DefaultLayout />}>
-        {/* ROTA - PÁGINA DE CADASTRO */}
-        <Route
-          path="/cad-attendees"
-          element={
-            <PrivateRoute>
-              <CadAttendee />
-            </PrivateRoute>
-          }
-        />
-
         {/* ROTA - TABELAS DE PARTICIPANTES E EVENTOS */}
         <Route
           path="/attendees"
