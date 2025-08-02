@@ -20,7 +20,7 @@ export function NotFound() {
       />
 
       <Text as="h1" fontSize="2xl" fontWeight="bold">
-        Página não encontrada
+        Not Found
       </Text>
       <Text>
         Voltar para{" "}
