@@ -47,7 +47,7 @@ export function CreateEventModal({ isOpen, onClose }: CreateEventModalProps) {
     setSuccess(null);
 
     try {
-      const response = await fetch("http://localhost:3333/events", {
+      const response = await fetch(`${import.meta.env.VITE_API}/events`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

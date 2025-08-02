@@ -57,7 +57,7 @@ export function CadAttendee() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch("http://localhost:3333/events/all");
+        const response = await fetch(`${import.meta.env.VITE_API}/events/all`);
         if (!response.ok) {
           throw new Error("Erro ao buscar eventos");
         }
