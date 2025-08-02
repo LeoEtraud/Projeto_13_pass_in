@@ -5,6 +5,7 @@ import { CadAttendee } from "../pages/attendees/create";
 import { Login } from "../pages";
 import { DefaultLayout } from "../layouts";
 import { NotFound } from "../404";
+import { PrivateRoute } from "./privateRoutes";
 
 export function Router() {
   return (
@@ -23,17 +24,17 @@ export function Router() {
         <Route
           path="/attendees"
           element={
-            // <PrivateRoute>
-            <AttendeeList />
-            // </PrivateRoute>
+            <PrivateRoute>
+              <AttendeeList />
+            </PrivateRoute>
           }
         />
         <Route
           path="/events"
           element={
-            // <PrivateRoute>
-            <EventList />
-            // </PrivateRoute>
+            <PrivateRoute>
+              <EventList />
+            </PrivateRoute>
           }
         />
       </Route>

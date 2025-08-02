@@ -93,7 +93,7 @@ export function CadAttendee() {
       }
 
       const response = await fetch(
-        "http://localhost:3333/attendees/validator_cpf",
+        `${import.meta.env.VITE_API}/attendees/validator_cpf`,
         {
           method: "POST",
           headers: {
