@@ -42,7 +42,7 @@ export function AttendeeList() {
   useEffect(() => {
     setLoading(true);
     // Cria a URL da API para buscar os dados
-    const url = new URL("http://localhost:3333/attendees/events/all");
+    const url = new URL(`${import.meta.env.VITE_API_URL}/attendees/events/all`);
     url.searchParams.set("pageIndex", String(page - 1));
     if (search) url.searchParams.set("query", search);
 

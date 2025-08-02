@@ -61,7 +61,9 @@ export function EventList() {
   useEffect(() => {
     setLoading(true);
     const url = new URL(
-      "http://localhost:3333/events/627cb110-5c68-4c90-8ff1-f3cce15d606e"
+      `${
+        import.meta.env.VITE_API_URL
+      }/events/627cb110-5c68-4c90-8ff1-f3cce15d606e`
     );
 
     url.searchParams.set("pageIndex", String(page - 1));
