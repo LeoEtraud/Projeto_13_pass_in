@@ -61,9 +61,7 @@ export function EventList() {
   useEffect(() => {
     setLoading(true);
     const url = new URL(
-      `${
-        import.meta.env.VITE_API_URL
-      }/events/627cb110-5c68-4c90-8ff1-f3cce15d606e`
+      "https://server-node-pass-in.onrender.com/events/627cb110-5c68-4c90-8ff1-f3cce15d606e"
     );
 
     url.searchParams.set("pageIndex", String(page - 1));
