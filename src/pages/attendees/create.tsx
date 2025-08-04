@@ -237,16 +237,18 @@ export function CadAttendee() {
   };
 
   return (
-    <div className="flex flex-col gap-4 mt-5">
-      <div className="flex gap-3 items-center my-10">
-        <h1 className="text-2xl font-bold">Inscrição de Participante</h1>
+    <div className="flex flex-col gap-4 mt-5 p-2 sm:p-4">
+      <div className="flex gap-3 items-center my-5 sm:my-10">
+        <h1 className="text-lg sm:text-xl md:text-2xl font-bold">
+          Inscrição de Participante
+        </h1>
       </div>
 
       {/* Aplicando a borda azul ao redor do formulário */}
       <div className="border border-white/10 rounded-lg">
         <form
           onSubmit={onCadUser}
-          className="grid grid-cols-1 md:grid-cols-2 m-10 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 m-4 sm:m-6 md:m-10 gap-4 sm:gap-6 max-w-xs sm:max-w-none mx-auto sm:mx-0"
         >
           {/* CAMPO DE TEXTO PARA ADICIONAR O NOME COMPLETO */}
           <div
@@ -255,7 +257,7 @@ export function CadAttendee() {
             )}`}
           >
             <input
-              className="bg-transparent flex-1 outline-none border-0 p-0 text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
+              className="bg-transparent flex-1 outline-none border-0 p-0 text-xs sm:text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
               placeholder="Nome completo"
               name="name"
               value={data.name}
@@ -272,7 +274,7 @@ export function CadAttendee() {
             )}`}
           >
             <select
-              className="bg-transparent flex-1 outline-none border-0 p-0 text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
+              className="bg-transparent flex-1 outline-none border-0 p-0 text-xs sm:text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
               name="sexo"
               value={data.sexo}
               onChange={handleChange}
@@ -300,7 +302,7 @@ export function CadAttendee() {
             )}`}
           >
             <input
-              className="bg-transparent flex-1 outline-none border-0 p-0 text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
+              className="bg-transparent flex-1 outline-none border-0 p-0 text-xs sm:text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
               type="text"
               placeholder="Data de Nascimento"
               name="data_nasc"
@@ -319,12 +321,13 @@ export function CadAttendee() {
             )}`}
           >
             <input
-              className="bg-transparent flex-1 outline-none border-0 p-0 text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
+              className="bg-transparent flex-1 outline-none border-0 p-0 text-xs sm:text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
               placeholder="CPF"
               name="cpf"
               value={formatCpf(data.cpf)}
               onChange={handleChange}
               maxLength={14}
+              inputMode="numeric"
               autoComplete="off"
               required
             />
@@ -337,7 +340,7 @@ export function CadAttendee() {
             )}`}
           >
             <input
-              className="bg-transparent flex-1 outline-none border-0 p-0 text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
+              className="bg-transparent flex-1 outline-none border-0 p-0 text-xs sm:text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
               placeholder="E-mail"
               name="email"
               value={data.email}
@@ -354,7 +357,7 @@ export function CadAttendee() {
             )}`}
           >
             <input
-              className="bg-transparent flex-1 outline-none border-0 p-0 text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
+              className="bg-transparent flex-1 outline-none border-0 p-0 text-xs sm:text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
               placeholder="Telefone/WhatsApp"
               name="telefone"
               value={formatPhone(data.telefone)}
@@ -372,7 +375,7 @@ export function CadAttendee() {
             )}`}
           >
             <input
-              className="bg-transparent flex-1 outline-none border-0 p-0 text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
+              className="bg-transparent flex-1 outline-none border-0 p-0 text-xs sm:text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
               placeholder="Senha"
               name="senha"
               type={showPassword ? "text" : "password"} // Alterna o tipo de input
@@ -386,7 +389,8 @@ export function CadAttendee() {
                 src={showPassword ? eyeSlash : eye}
                 alt="Mostrar/Ocultar"
                 onClick={toggleShowPassword}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", filter: "brightness(0) invert(1)" }}
+                className="w-4 h-4 sm:w-5 sm:h-5"
               />
             )}
           </div>
@@ -398,7 +402,7 @@ export function CadAttendee() {
             )}`}
           >
             <input
-              className="bg-transparent flex-1 outline-none border-0 p-0 text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
+              className="bg-transparent flex-1 outline-none border-0 p-0 text-xs sm:text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
               placeholder="Confirmar Senha"
               name="confirm_senha"
               type={showConfirmPassword ? "text" : "password"} // Alterna o tipo de input
@@ -412,26 +416,28 @@ export function CadAttendee() {
                 src={showConfirmPassword ? eyeSlash : eye}
                 alt="Mostrar/Ocultar"
                 onClick={toggleConfirmShowPassword}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", filter: "brightness(0) invert(1)" }}
+                className="w-4 h-4 sm:w-5 sm:h-5"
               />
             )}
           </div>
 
           {/* CAMPO DE SELEÇÃO PARA ESCOLHER O EVENTO */}
           <div
-            className={`px-3 w-full py-1.5 border focus-within:border-blue-500  rounded-lg flex items-center gap-3 justify-center md:col-span-2 ${getBorderColor(
+            className={`px-3 w-full py-1.5 border focus-within:border-blue-500  rounded-lg flex items-center gap-3 md:col-span-2 relative ${getBorderColor(
               data.eventId
             )}`}
           >
             <select
-              className="bg-transparent flex-1 outline-none border-0 p-0 text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent"
+              className="bg-transparent flex-1 outline-none border-0 p-0 text-xs sm:text-sm text-white placeholder-gray-400 focus:ring-0 focus:border-green-500 focus:outline-none focus:placeholder-transparent appearance-none pr-8"
+              style={{ backgroundImage: "none" }}
               name="eventId"
               value={data.eventId}
               onChange={handleChange}
               required
             >
               <option value="" disabled>
-                Selecione um evento
+                Escolha um evento
               </option>
               {eventOptions.map((option) => (
                 <option
@@ -443,21 +449,35 @@ export function CadAttendee() {
                 </option>
               ))}
             </select>
+            <svg
+              className="absolute right-3 pointer-events-none w-4 h-4 text-gray-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
           </div>
 
           {/* Botão de Submissão */}
-          <div className="col-span-1 md:col-span-2 flex justify-center mt-10">
+          <div className="col-span-1 md:col-span-2 flex justify-center mt-6 sm:mt-10">
             <button
               type="submit"
-              className="px-2 py-2 w-52 mb-2 font-bold bg-blue-600 hover:bg-blue-800 text-white rounded-md"
+              className="px-3 sm:px-6 py-2 sm:py-3 w-40 sm:w-52 mb-2 font-bold bg-blue-600 hover:bg-blue-800 text-white rounded-md text-sm sm:text-base"
             >
               ME INSCREVER
             </button>
           </div>
         </form>
       </div>
-      {error && <div className="text-red-500">{error}</div>}
-      {success && <div className="text-green-500">{success}</div>}
+      {error && <div className="text-red-500 text-sm">{error}</div>}
+      {success && <div className="text-green-500 text-sm">{success}</div>}
     </div>
   );
 }
