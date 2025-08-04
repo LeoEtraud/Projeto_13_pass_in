@@ -238,7 +238,12 @@ export function CadAttendee() {
 
   return (
     <div className="flex flex-col gap-4 mt-5 p-2 sm:p-4">
-      <div className="flex gap-3 items-center my-5 sm:my-10">
+      <div className="flex flex-col items-center gap-4 my-5 sm:my-10">
+        <img
+          src="/register.png"
+          alt="Ícone de Registro"
+          className="w-16 h-16 sm:w-20 sm:h-20"
+        />
         <h1 className="text-lg sm:text-xl md:text-2xl font-bold">
           Inscrição de Participante
         </h1>
