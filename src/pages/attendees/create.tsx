@@ -476,7 +476,7 @@ export function CadAttendee() {
               type="submit"
               className="px-3 sm:px-6 py-2 sm:py-3 w-40 sm:w-52 mb-2 font-bold bg-blue-600 hover:bg-blue-800 text-white rounded-md text-sm sm:text-base"
             >
-              ME INSCREVER
+              INSCREVER-ME
             </button>
           </div>
         </form>
