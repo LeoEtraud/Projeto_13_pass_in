@@ -245,7 +245,7 @@ export function CadAttendee() {
           className="w-16 h-16 sm:w-20 sm:h-20"
         />
         <h1 className="text-lg sm:text-xl md:text-2xl font-bold">
-          Inscrição de Participante
+          Formulário de Inscrição de Participante
         </h1>
       </div>
 
