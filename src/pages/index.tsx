@@ -67,7 +67,7 @@ export function Login() {
           draggable={false}
         />
         <h1 className="text-lg md:text-xl font-bold text-white text-center">
-          LOGIN DO GESTOR
+          PAINEL DO ADMINISTRADOR
         </h1>
         <form
           onSubmit={handleSignIn}
